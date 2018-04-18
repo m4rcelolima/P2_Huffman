@@ -3,7 +3,7 @@
 ## Contents:
 * Huffman Coding
 * A* Algorithm
-* Linked List vs Binary Seach Tree (comparison)
+* Linked List vs Binary Search Tree (comparison)
 
 ## Members:
 * Bruno Rafael Severo
