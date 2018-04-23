@@ -36,15 +36,25 @@ int main(int argc, char const *argv[]){
 		return 0;
 	}
 
+	/*
+	 * Compress the file if the 'compress' argument
+	 * is used.
+	*/
 	if ( !strcmp(argv[1], "compress") ){
 		printf("Compressing file...-\n");
 		//compress(argv[2], argv[3]);
 	}
+
+	/*
+	 * Uncompress the file if the 'uncompress'
+	 * argument is used.
+	*/
 	else if ( !strcmp(argv[1], "uncompress") ){
 		printf("Uncompressing file...\n");
 		//uncompress(argv[2], argv[3]);
 	}
-	else  //Invalid argument
+	//Invalid argument
+	else
 		argumentError(2);
 	return 0;
 }
