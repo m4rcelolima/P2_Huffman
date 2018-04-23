@@ -1,0 +1,5 @@
+# compressed files extension
+*.huff
+
+# executable name
+huffman
