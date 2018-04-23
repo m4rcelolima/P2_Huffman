@@ -22,6 +22,8 @@ void argumentError(int e){
 		case 2:
 			printf("Invalid arguments.\n");
 			break;
+		default:
+			printf("Error #%d\n", e);
 	}
 }
 
