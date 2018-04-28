@@ -3,3 +3,9 @@
 
 # executable name
 huffman
+
+# test files
+*.jpg
+*.png
+*.mp4
+*.txt
