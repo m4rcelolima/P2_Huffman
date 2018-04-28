@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "compress.h"
 
 // Receives an error code and prints an error message
 void argumentError(int e){
@@ -43,8 +44,7 @@ int main(int argc, char const *argv[]){
 	 * is used.
 	*/
 	if ( !strcmp(argv[1], "compress") ){
-		printf("Compressing file...-\n");
-		//compress(argv[2], argv[3]);
+		compress(argv[2], argv[3]);
 	}
 
 	/*

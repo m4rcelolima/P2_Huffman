@@ -1,0 +1,1 @@
+void compress(const char*,const char*);
