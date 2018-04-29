@@ -1,1 +1,1 @@
-void compress(const char*,const char*);
+long int compress(unsigned char*, long int, const char*);
