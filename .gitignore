@@ -9,3 +9,6 @@ huffman
 *.png
 *.mp4
 *.txt
+
+#Visual Studio Code config files
+.vscode
