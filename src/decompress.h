@@ -1,0 +1,1 @@
+void decompress(unsigned char *, long int, const char *);
