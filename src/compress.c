@@ -1,24 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//NOTE: compressedSize() is not tested
+
 /*
- * TODO
+ * Function: compress
+ * -------------------------------------------------
+ * file_array: A array containing the bytes of the original file
+ * file_size: The amount of bytes the original file had, and the size of file_array
+ * output: The name of the compressed file, that is going to be created
 */
+void compress(unsigned char *file_array, long int file_size, const char* output){
 
-long int compress(unsigned char *file_array, long int file_size, const char* output){
-    // TODO
 
-    
-    return 0;
+    //placeholder
+    printf("compress function called\n");
    
-   
-    /*
-    // Reads the file size and returns it
-    // TODO: Improve comments
-    FILE *output_file = fopen(output, "r");
-    fseek(output_file, 0, SEEK_END);
-    long int output_size = ftell(output_file);
-    fclose(output_file);
-    return output_size;
-    */
+}
+
+/*
+ * Function: compressedSize
+ * -------------------------------------------------
+ * compressed_file: name of the .huff file
+ * return: size of the file, or -1 if it can't be opened
+*/
+long int compressedSize(const char* compressed_file){
+    FILE *cfile = fopen(compressed_file, "r");
+
+    if (cfile == NULL){
+        return -1;
+    }
+
+    fseek(cfile, 0, SEEK_END);
+    long int csize = ftell(cfile);
+    fclose(cfile);
+    return csize;
 }
