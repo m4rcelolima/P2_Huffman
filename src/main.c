@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "compress.h"
+#include "decompress.h"
 
 // Receives an error code and prints an error message
 void printError(int e){
@@ -78,7 +79,7 @@ int main(int argc, char const *argv[]){
 	 * is used.
 	*/
 	if ( !strcmp(argv[1], "compress") ){
-		printf("The compressed file %s size is %ld bytes\n", argv[3], compress(file_data, file_size, argv[3]));
+		compress(file_data, file_size, argv[3]);
 	}
 
 	/*
@@ -86,8 +87,7 @@ int main(int argc, char const *argv[]){
 	 * argument is used.
 	*/
 	else if ( !strcmp(argv[1], "decompress") ){
-		printf("Decompressing file...\n");
-		//decompress(argv[2], argv[3]);
+		decompress(file_data, file_size, argv[3]);
 	}
 	//Invalid argument
 	else
