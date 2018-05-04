@@ -1,5 +1,5 @@
 /*
- * This is a prototype 'main.c' for the Huffman Project
+ * Huffman Project
  * Data Structures class, Professor Marcio Ribeiro
  * Made by:
  * Bruno Rafael Severo
@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include "compress.h"
 #include "decompress.h"
+#include "structures.h"
+
+#define TESTQUEUE 0
 
 // Receives an error code and prints an error message
 void printError(int e){
@@ -33,6 +36,10 @@ void printError(int e){
 }
 
 int main(int argc, char const *argv[]){
+
+	if (TESTQUEUE){
+		testQueue();
+	}
 
 	/* 
 	 * If the number of arguments is different than 3,
