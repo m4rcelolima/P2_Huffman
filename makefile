@@ -1,5 +1,10 @@
-OBJS = src/*.c
-DEPS = src/*.h
+HEADERS = src/*.h
+SRC = src/*.c
+CC = gcc
+CFLAGS = -Wall -g
+NAME = huffman
 
 compile:
-	gcc $(OBJS) $(DEPS) -o huffman
+	@echo Compiling project
+	@$(CC) $(SRC) $(HEADERS) $(CFLAGS) -o $(NAME)
+	@echo Compilation successful
