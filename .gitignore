@@ -1,14 +1,16 @@
-# compressed files extension
+# compressed files
 *.huff
 
 # executable name
 huffman
 
 # test files
+*.txt
 *.jpg
 *.png
+*.bmp
+*.avi
 *.mp4
-*.txt
 
-#Visual Studio Code config files
+# Visual Studio Code config
 .vscode
