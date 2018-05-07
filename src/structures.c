@@ -3,11 +3,12 @@
 /*
  * Function: newNode
  * -------------------------------------------------
- * Creates a new node and returns it 
- * byte: byte data from the file
+ * Creates a new huffman node with void pointer
+ * -------------------------------------------------
+ * byte: a byte data from the original file
  * freq: frequency of the byte
- * left: node on the left
- * right: node on the right
+ * left: node to the left
+ * right: node to the right
  * return: pointer to the new node
  */
 node* newNode(unsigned char byte, long int freq, node* left, node* right){
@@ -25,7 +26,9 @@ node* newNode(unsigned char byte, long int freq, node* left, node* right){
 /*
  * Function: createPQueue()
  * -------------------------------------------------
- * Creates a priority queue of huffman nodes, and returns it
+ * Creates a priority queue of huffman nodes, with a
+ * pointer to NULL and size 0
+ * -------------------------------------------------
  * return: pointer to the new priority queue
  */
 pqueue* createPQueue(){
@@ -38,7 +41,9 @@ pqueue* createPQueue(){
 /*
  * Function: enqueue()
  * -------------------------------------------------
- * Enqueues nodes in a priority queue according to their byte frequency
+ * Enqueues nodes in a priority queue according to its
+ * frequency. Lowest to highest.
+ * -------------------------------------------------
  * *q: Priority queue
  * *new_node: Node to be enqueued
  */
@@ -68,12 +73,13 @@ void enqueue(pqueue *q, node *new_node){
  * Function: dequeue()
  * -------------------------------------------------
  * Dequeues a node from a priority queue
+ * -------------------------------------------------
  * *q: Priority queue
  * return: the dequeued node, or NULL if the queue is empty
  */
 node* dequeue(pqueue *q){
     if (q->size < 1){
-        printf("The queue is empty\n");
+        printf("Queue underflow\n");
         return NULL;
     }
     else{
@@ -109,6 +115,7 @@ long int getFrequency(node *node){
  * Function: printQueue()
  * -------------------------------------------------
  * Prints the queue without altering it
+ * -------------------------------------------------
  * *q: Priority queue
  */
 void printQueue(pqueue *q){
