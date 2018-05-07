@@ -39,6 +39,7 @@ int main(int argc, char const *argv[]){
 
 	if (TESTQUEUE){
 		testQueue();
+		return 0;
 	}
 
 	/* 
