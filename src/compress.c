@@ -1,10 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "compress.h"
 #include "structures.h"
 
-//NOTE: compressedSize() is not tested
+//Function to test the huffman coding
+//TO BE REMOVED ONCE TESTING IS DONE
+void test(node* huff[]){
+    int i;
+    printf("TESTING\n");
+    for (i = 0; i < 256; i++){
+        printf("[%d]: ", i);
+        while(huff[i] != NULL){
+            printf("%c", getItem(huff[i]));
+            huff[i] = huff[i]->next;
+        }
+        printf("\n");
+    }
+}
 
+//NOTE: compressedSize() is not tested
 /*
  * Function: compress
  * -------------------------------------------------
@@ -12,14 +27,43 @@
  * file_size: The amount of bytes the original file had, and the size of file_array
  * output: The name of the compressed file, that is going to be created
 */
-void compress(unsigned char *file_array, long int file_size, const char* output){
-
-
-    //placeholder
-    printf("compress function called\n");
+void compress(unsigned char *file_array, long int file_size, const char *output){
 
     node* huffman_tree = createHuffmanTree(file_array, file_size);
-   
+
+    node* huffmanCoding[256] = {NULL};
+    char* aux_string = (char*)calloc(17, sizeof(char));
+    
+    mapHuffman(huffman_tree, huffmanCoding, aux_string, "");
+
+    test(huffmanCoding);
+
+
+}
+
+void mapHuffman(node* huffman_tree, node* coding[], char* bits, char* nextBit){
+    strcat(bits, nextBit);
+    if(huffman_tree->left == NULL && huffman_tree->right == NULL){
+        int coding_size = strlen(bits);
+        int i;
+        for (i = 0; i < coding_size; i++){
+            addHuffmanCoding(&coding[getItem(huffman_tree)], bits[i]);
+        }
+    }
+    else{
+        mapHuffman(huffman_tree->left, coding, bits, "0");
+        bits[strlen(bits)-1] = '\0';
+        mapHuffman(huffman_tree->right, coding, bits, "1");
+        bits[strlen(bits)-1] = '\0';
+    }
+}
+
+void addHuffmanCoding(node** coding, char item){
+    if ( (*coding) == NULL ){
+        (*coding) = newNode(item, 0, NULL, NULL);
+        return;
+    }
+    addHuffmanCoding(&(*coding)->next, item);
 }
 
 /*
