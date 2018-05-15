@@ -36,9 +36,38 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
 
     mapHuffman(huffman_tree, huffmanCoding, aux_string, "");
 
-    test(huffmanCoding);
+    //test(huffmanCoding);
+
+    //Creates a new empty file and opens it on read and write mode
+    FILE* compressed_file = fopen(output, "w+");
+
+    //Initializing the first two bytes of the file with 0
+    char first_byte = 0;
+    char second_byte = 0;
+    putc(first_byte, compressed_file);
+    putc(second_byte, compressed_file);
+
+    int tree_size = 0;
+    write_tree(huffman_tree, compressed_file, &tree_size);
+    printf("TREE SIZE: %d\n", tree_size);
 
 
+}
+
+void write_tree(node* huffman_tree, FILE* compressed_file, int* tree_size){
+    if (huffman_tree != NULL){
+        *tree_size += 1;
+        if ( 
+        (huffman_tree->left == NULL && huffman_tree->right == NULL) &&
+        (getItem(huffman_tree) == '*' || getItem(huffman_tree) == '\\')
+        ){
+            *tree_size += 1;
+            putc('\\', compressed_file);
+        }
+        putc(getItem(huffman_tree), compressed_file);
+        write_tree(huffman_tree->left, compressed_file, tree_size);
+        write_tree(huffman_tree->right, compressed_file, tree_size);
+    }
 }
 
 void mapHuffman(node* huffman_tree, node* coding[], char* bits, char* nextBit){
