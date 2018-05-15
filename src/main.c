@@ -42,13 +42,13 @@ int main(int argc, char const *argv[]){
 		return 0;
 	}
 
-	/* 
+	/*
 	 * If the number of arguments is different than 3,
 	 * prints out instructions and ends the program.
 	*/
 	if (argc != 4){
 		printError(1);
-		return 0;
+        return 0;
 	}
 
 	// Open file in read mode
@@ -87,6 +87,7 @@ int main(int argc, char const *argv[]){
 	 * is used.
 	*/
 	if ( !strcmp(argv[1], "compress") ){
+        printf("\nCompressing the file: %s...\n\n", argv[2]);
 		compress(file_data, file_size, argv[3]);
 	}
 
@@ -95,6 +96,7 @@ int main(int argc, char const *argv[]){
 	 * argument is used.
 	*/
 	else if ( !strcmp(argv[1], "decompress") ){
+        printf("\nDecompressing the file: %s\n\n", argv[2]);
 		decompress(file_data, file_size, argv[3]);
 	}
 	//Invalid argument

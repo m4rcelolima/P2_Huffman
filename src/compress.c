@@ -33,7 +33,7 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
 
     node* huffmanCoding[256] = {NULL};
     char* aux_string = (char*)calloc(17, sizeof(char));
-    
+
     mapHuffman(huffman_tree, huffmanCoding, aux_string, "");
 
     test(huffmanCoding);
@@ -83,12 +83,16 @@ node* createHuffmanTree(unsigned char *file_array, long int file_size){
     long int byte_frequency[256] = {0};
     long int i;
 
+    printf("\nCounting frequencies...\n\n");
+
     // counts the frequency of each byte
     for (i = 0; i < file_size; i++){
         byte_frequency[file_array[i]]++;
     }
 
     pqueue *priority_queue = createPQueue();
+
+    printf("\nCreating priority queue...\n\n");
 
     // creates nodes with byte and frequency and enqueues them
     for (i = 0; i < 256; i++){
@@ -97,17 +101,22 @@ node* createHuffmanTree(unsigned char *file_array, long int file_size){
         }
     }
 
+    printf("\nPriority Queue created!\n\n");
+
+    printf("\nCreating huffman tree...\n\n");
     // dequeues the two lowest priority nodes
     // and enqueues them back as childs of a
     // '*' node with the sum of their fequencies
     while (priority_queue->size > 1){
-       
+
         node* left = dequeue(priority_queue);
         node* right = dequeue(priority_queue);
 
         enqueue(priority_queue, newNode('*', (left->frequency + right->frequency), left, right ) );
-        
+
     }
+
+    printf("\nHuffman tree created!\n\n");
 
     return priority_queue->head;
 
