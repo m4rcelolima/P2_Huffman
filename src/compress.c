@@ -48,13 +48,13 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
     putc(second_byte, compressed_file);
 
     int tree_size = 0;
-    write_tree(huffman_tree, compressed_file, &tree_size);
+    writeTree(huffman_tree, compressed_file, &tree_size);
     printf("TREE SIZE: %d\n", tree_size);
 
 
 }
 
-void write_tree(node* huffman_tree, FILE* compressed_file, int* tree_size){
+void writeTree(node* huffman_tree, FILE* compressed_file, int* tree_size){
     if (huffman_tree != NULL){
         *tree_size += 1;
         if ( 
@@ -65,8 +65,8 @@ void write_tree(node* huffman_tree, FILE* compressed_file, int* tree_size){
             putc('\\', compressed_file);
         }
         putc(getItem(huffman_tree), compressed_file);
-        write_tree(huffman_tree->left, compressed_file, tree_size);
-        write_tree(huffman_tree->right, compressed_file, tree_size);
+        writeTree(huffman_tree->left, compressed_file, tree_size);
+        writeTree(huffman_tree->right, compressed_file, tree_size);
     }
 }
 
