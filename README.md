@@ -9,3 +9,8 @@
 * Bruno Rafael Severo
 * Marcelo Lima
 * Thiago Miranda
+
+### Structures used: 
+
+* Priority Queue
+* Huffman Node (Tree)
