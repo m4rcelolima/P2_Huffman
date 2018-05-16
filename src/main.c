@@ -14,8 +14,6 @@
 #include "decompress.h"
 #include "structures.h"
 
-#define TESTQUEUE 0
-
 // Receives an error code and prints an error message
 void printError(int e){
 	switch (e){
@@ -36,11 +34,6 @@ void printError(int e){
 }
 
 int main(int argc, char const *argv[]){
-
-	if (TESTQUEUE){
-		testQueue();
-		return 0;
-	}
 
 	/*
 	 * If the number of arguments is different than 3,
@@ -78,9 +71,7 @@ int main(int argc, char const *argv[]){
 	fread(file_data, sizeof(char), file_size, input);
 	fclose(input);
 
-
 	printf("The file %s has %ld bytes\n", argv[2], file_size);
-
 
 	/*
 	 * Compress the file if the 'compress' argument
