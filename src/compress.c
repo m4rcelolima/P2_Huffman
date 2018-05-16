@@ -4,22 +4,6 @@
 #include "compress.h"
 #include "structures.h"
 
-//Function to test the huffman coding
-//TO BE REMOVED ONCE TESTING IS DONE
-void test(node* huff[]){
-    int i;
-    printf("TESTING\n");
-    for (i = 0; i < 256; i++){
-        printf("[%d]: ", i);
-        while(huff[i] != NULL){
-            printf("%c", getItem(huff[i]));
-            huff[i] = huff[i]->next;
-        }
-        printf("\n");
-    }
-}
-
-//NOTE: compressedSize() is not tested
 /*
  * Function: compress
  * -------------------------------------------------
@@ -35,8 +19,6 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
     char* aux_string = (char*)calloc(17, sizeof(char));
 
     mapHuffman(huffman_tree, huffmanCoding, aux_string, "");
-
-    //test(huffmanCoding);
 
     //Creates a new empty file and opens it on read and write mode
     FILE* compressed_file = fopen(output, "w+");
@@ -208,24 +190,4 @@ node* createHuffmanTree(unsigned char *file_array, long int file_size){
 
     return priority_queue->head;
 
-}
-
-
-/*
- * Function: compressedSize
- * -------------------------------------------------
- * compressed_file: name of the .huff file
- * return: size of the file, or -1 if it can't be opened
-*/
-long int compressedSize(const char* compressed_file){
-    FILE *cfile = fopen(compressed_file, "r");
-
-    if (cfile == NULL){
-        return -1;
-    }
-
-    fseek(cfile, 0, SEEK_END);
-    long int csize = ftell(cfile);
-    fclose(cfile);
-    return csize;
 }
