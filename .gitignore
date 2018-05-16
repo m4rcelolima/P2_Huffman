@@ -11,6 +11,7 @@ huffman
 *.bmp
 *.avi
 *.mp4
+*.pdf
 
 # Visual Studio Code config
 .vscode
