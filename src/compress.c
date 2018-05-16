@@ -51,6 +51,20 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
     writeTree(huffman_tree, compressed_file, &tree_size);
     printf("TREE SIZE: %d\n", tree_size);
 
+    int trash = writeCompressed(file_array, file_size, huffmanCoding, compressed_file);
+
+    printf("TRASH SIZE: %d\n", trash);
+
+    printf("Compressed file size: %ld\n", ftell(compressed_file));
+
+    first_byte = tree_size >> 8;
+    second_byte = tree_size;
+    first_byte |= trash << 5;
+    fseek(compressed_file, 0, SEEK_SET);
+    putc(first_byte, compressed_file);
+    putc(second_byte, compressed_file);
+
+    fclose(compressed_file);
 
 }
 
@@ -68,6 +82,51 @@ void writeTree(node* huffman_tree, FILE* compressed_file, int* tree_size){
         writeTree(huffman_tree->left, compressed_file, tree_size);
         writeTree(huffman_tree->right, compressed_file, tree_size);
     }
+}
+
+int writeCompressed(unsigned char* file_array, long int file_size, node* coding[], FILE* compressed_file){
+
+    node* current;
+    unsigned char byte = 0;
+    int j = 7;
+    long int i;
+
+    for (i = 0; i < file_size; i++){
+        current = coding[file_array[i]];
+        for ( ; j >= 0; j--){
+         
+            if (getItem(current) == '1'){
+                byte |= 1 << j;
+            }
+
+            if (current->next == NULL){
+                if (i == file_size-1){
+                    putc(byte, compressed_file);
+                    break;
+                }
+                else if(j == 0){
+                    putc(byte, compressed_file);
+                    byte = 0;
+                    j = 7;
+                    break;
+                }
+                else{
+                    j--;
+                    break;
+                }
+            }
+
+            current = current->next;
+
+            if (j == 0){
+                putc(byte, compressed_file);
+                byte = 0;
+                j = 8;
+            }
+        }
+    }
+
+    return j;
 }
 
 void mapHuffman(node* huffman_tree, node* coding[], char* bits, char* nextBit){
