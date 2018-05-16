@@ -87,7 +87,6 @@ int main(int argc, char const *argv[]){
 	 * is used.
 	*/
 	if ( !strcmp(argv[1], "compress") ){
-        	printf("\nCompressing the file: %s...\n\n", argv[2]);
 		compress(file_data, file_size, argv[3]);
 	}
 
@@ -96,7 +95,6 @@ int main(int argc, char const *argv[]){
 	 * argument is used.
 	*/
 	else if ( !strcmp(argv[1], "decompress") ){
-        	printf("\nDecompressing the file: %s\n\n", argv[2]);
 		decompress(file_data, file_size, argv[3]);
 	}
 	//Invalid argument
