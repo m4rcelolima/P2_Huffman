@@ -19,8 +19,8 @@ void printError(int e){
 	switch (e){
 		case 1:
 			printf("Please use 3 arguments as follows:\n\n");
-			printf("Example 1: ./huffman compress picture.png pic.huff\n");
-			printf("Example 2: ./huffman decompress pic.huff picture.png\n");
+			printf("Example 1: ./huffman compress picture.png pic.png.huff\n");
+			printf("Example 2: ./huffman decompress pic.png.huff pic.png\n");
 			break;
 		case 2:
 			printf("Invalid arguments\n");
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[]){
 	fseek(input, 0 ,SEEK_END);
 	long int file_size = ftell(input);
 	fseek(input, 0, SEEK_SET);
-
+    fclose(input);
 	/*
 	 * Allocates an array with the size of the file in bytes
 	 * Copies the file bytes to the array
@@ -69,7 +69,7 @@ int main(int argc, char const *argv[]){
 	*/
 	unsigned char *file_data = (unsigned char*) malloc(file_size * sizeof(unsigned char));
 	fread(file_data, sizeof(char), file_size, input);
-	fclose(input);
+
 
 	printf("The file %s has %ld bytes\n", argv[2], file_size);
 
@@ -86,7 +86,7 @@ int main(int argc, char const *argv[]){
 	 * argument is used.
 	*/
 	else if ( !strcmp(argv[1], "decompress") ){
-		decompress(file_data, file_size, argv[3]);
+		decompress(argv[2]);
 	}
 	//Invalid argument
 	else
