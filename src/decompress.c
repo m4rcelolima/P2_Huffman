@@ -20,7 +20,7 @@ void decompress(char *file_name){
 
             decompressed_name[strlen(file_name) - 5] = '\0';
 
-            decompressed = fopen(decompressed_name, 'wb');
+            decompressed = fopen(decompressed_name, "wb");
 
             fread(&header, sizeof(unsigned short int), 1, toDescompress);
 

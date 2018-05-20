@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <string.h>
 #ifndef __STRUCTURES_H_
 #define __STRUCTURES_H_
 
@@ -43,7 +43,7 @@ unsigned char getItem(node*);
 
 long int getFrequency(node*);
 
-node *createEmptyBinaryTree();
+huffmanTree *createEmptyBinaryTree();
 
 void addHuffmanTree(huffmanTree *, node *);
 

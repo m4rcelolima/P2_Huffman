@@ -128,7 +128,7 @@ void printQueue(pqueue *q){
     printf("\n");
 }
 
-node* createEmptyBinaryTree(){
+huffmanTree* createEmptyBinaryTree(){
     huffmanTree *new_tree = (huffmanTree *) malloc(sizeof(huffmanTree));
 
     new_tree->size = malloc(sizeof(short int));
@@ -149,7 +149,7 @@ node* createEmptyBinaryTree(){
 
 }
 
-addHuffmanTree(huffmanTree *tree, node *to_add){
+void addHuffmanTree(huffmanTree *tree, node *to_add){
 
     if(tree != NULL && to_add != NULL){
         if((*(int*)tree->size) == 0){
@@ -159,7 +159,7 @@ addHuffmanTree(huffmanTree *tree, node *to_add){
         } else{
             node *tmp = tree->head;
 
-            while(tmp != NULL & tmp->frequency < to_add->frequency){
+            while(tmp != NULL && (tmp->frequency < to_add->frequency)){
                 tmp = tmp->next;
             }
 
