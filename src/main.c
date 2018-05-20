@@ -86,7 +86,10 @@ int main(int argc, char const *argv[]){
 	 * argument is used.
 	*/
 	else if ( !strcmp(argv[1], "decompress") ){
-		decompress(argv[2]);
+        int i;
+        for(i = 2; i < argc; i++){
+            decompress(argv[i]);
+        }
 	}
 	//Invalid argument
 	else
