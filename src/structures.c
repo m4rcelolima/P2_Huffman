@@ -128,6 +128,59 @@ void printQueue(pqueue *q){
     printf("\n");
 }
 
+node* createEmptyBinaryTree(){
+    huffmanTree *new_tree = (huffmanTree *) malloc(sizeof(huffmanTree));
+
+    new_tree->size = malloc(sizeof(short int));
+
+    short int aux = 0;
+
+    memcpy(new_tree->size, &aux, sizeof(short int));
+
+    new_tree->nodes = malloc(sizeof(short int));
+
+    memcpy(new_tree->nodes, &aux, sizeof(short int));
+
+    new_tree->head = NULL;
+
+    new_tree->tail = NULL;
+
+    return new_tree;
+
+}
+
+addHuffmanTree(huffmanTree *tree, node *to_add){
+
+    if(tree != NULL && to_add != NULL){
+        if((*(int*)tree->size) == 0){
+            tree->head = to_add;
+
+            tree->tail = to_add;
+        } else{
+            node *tmp = tree->head;
+
+            while(tmp != NULL & tmp->frequency < to_add->frequency){
+                tmp = tmp->next;
+            }
+
+            nextSet(to_add, tmp);
+
+            if(tmp != NULL){
+
+            }
+        }
+    }
+}
+
+void nextSet(node *_node, node *next_node){
+
+    if(_node != NULL && next_node != NULL) {
+
+        _node->next = next_node;
+    }
+
+}
+
 /*
  * Function: testQueue()
  * -------------------------------------------------
@@ -136,11 +189,11 @@ void printQueue(pqueue *q){
  * Expected output:
  *              PRIORITY QUEUE TEST
  *              |byte,frequency|
- *              |d,10| |b,20| |c,30| |e,40| |a,50| 
+ *              |d,10| |b,20| |c,30| |e,40| |a,50|
  *              Dequeue: d|10
  *              Dequeue: b|20
  *              |byte,frequency|
- *              |c,30| |e,40| |a,50| 
+ *              |c,30| |e,40| |a,50|
  */
 void testQueue(){
     unsigned char c[] = {'a','b','c','d','e'};
@@ -155,6 +208,6 @@ void testQueue(){
     for (i = 0; i < 2; i++){
         node *temp = dequeue(q);
         printf("Dequeue: %c|%ld\n", getItem(temp), getFrequency(temp) );
-    }    
+    }
     printQueue(q);
 }

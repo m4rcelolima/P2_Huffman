@@ -31,9 +31,25 @@ void decompress(char *file_name){
             tree_size = tree_size >> 3;
 
             printf("Initiating decompressing on file: %s...\n", file_name);
+            printf("Forming tree...\n");
+
+            huffmanTree *tree = createEmptyBinaryTree();
+            getBinaryTree(tree, toDescompress, tree_size);
         }
     }
     //placeholder
     printf("decompress function called\n");
 
+}
+
+void getBinaryTree(huffmanTree *tree, FILE *source, unsigned short int tree_size){
+
+    if(tree != NULL && source != NULL){
+
+        if(tree_size > 1){
+            add(tree, getNode(source));
+        } else{
+            add(tree, createNode(AUX, 0, getNode(source), NULL));
+        }
+    }
 }

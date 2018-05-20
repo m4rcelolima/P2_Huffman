@@ -2,8 +2,8 @@
 
 void decompress(char *);
 
-void getBinaryTree(huffmanTree_t *, FILE *, unsigned short int);
+void getBinaryTree(huffmanTree *, FILE *, unsigned short int);
 
-void saveDecompress(FILE *, FILE *, huffmanTree_t *, unsigned short int);
+void saveDecompress(FILE *, FILE *, huffmanTree *, unsigned short int);
 
-bool isBitSet(unsigned char, short int);
+int isBitSet(unsigned char, short int);

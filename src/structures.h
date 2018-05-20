@@ -17,6 +17,16 @@ typedef struct _queue{
     int size;
 } pqueue;
 
+typedef struct _huffmanTree{
+    void *size;
+
+    void *nodes;
+
+    node *head;
+
+    node *tail;
+} huffmanTree;
+
 node *newNode(unsigned char, long int, node*, node*);
 
 pqueue *createPQueue();
@@ -33,4 +43,9 @@ unsigned char getItem(node*);
 
 long int getFrequency(node*);
 
+node *createEmptyBinaryTree();
+
+void addHuffmanTree(huffmanTree *, node *);
+
+void nextSet();
 #endif
