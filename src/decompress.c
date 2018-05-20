@@ -35,11 +35,23 @@ void decompress(char *file_name){
 
             huffmanTree *tree = createEmptyBinaryTree();
             getBinaryTree(tree, toDescompress, tree_size);
+
+            printf("Tree formed!\n");
+            printf("Decompressing...\n");
+
+            saveDecompress(toDescompress, decompressed, tree, trash);
+            printf("File decompressed!\n");
+
+            fclose(toDescompress);
+            fclose(decompressed);
+
+            free(decompressed_name);
+
+            destroyBinaryTree(tree);
+        } else{
+            printf("\nThe file %s was not found!\n", file_name);
         }
     }
-    //placeholder
-    printf("decompress function called\n");
-
 }
 
 void getBinaryTree(huffmanTree *tree, FILE *source, unsigned short int tree_size){
@@ -47,9 +59,75 @@ void getBinaryTree(huffmanTree *tree, FILE *source, unsigned short int tree_size
     if(tree != NULL && source != NULL){
 
         if(tree_size > 1){
-            add(tree, getNode(source));
+            addHuffmanTree(tree, getNode(source));
         } else{
-            add(tree, createNode(AUX, 0, getNode(source), NULL));
+            addHuffmanTree(tree, newNode(AUX, 0, getNode(source), NULL));
         }
     }
+}
+
+node *getNode(FILE *source){
+    if(source != NULL){
+
+        unsigned char buffer;
+
+        fread(&buffer, sizeof(unsigned char), 1, source);
+
+        if (buffer == AUX) {
+
+            return newNode(buffer, 0, getNode(source), getNode(source));
+        } else if (buffer == ESC){
+            fread(&buffer, sizeof(unsigned char), 1, source);
+            return newNode(buffer, 0, NULL, NULL);
+        } else{
+            return newNode(buffer, 0, NULL, NULL);
+        }
+    } else{
+        return NULL;
+    }
+}
+
+void saveDecompress(FILE *source, FILE *destination, huffmanTree *tree, unsigned short int trash){
+    if(source != NULL && destination != NULL && tree != NULL){
+
+        unsigned char buffer;
+        unsigned char aux;
+
+        node *tmp = tree->head;
+
+        fread(&buffer, sizeof(unsigned char), 1, source);
+
+        while(!feof(source)){
+
+            fread(&aux, sizeof(unsigned char), 1, source);
+
+            short int i;
+            for(i = 7; i >= 0; i--){
+                if(!feof(source) || trash <= i){
+
+                    if(isBitSet(buffer, i)){
+                        tmp = tmp->right;
+                    } else{
+                        tmp = tmp->left;
+                    }
+
+                    if(isLeaf(tmp)){
+
+                        unsigned char aux_tmp = *(unsigned char*)tmp->item;
+
+                        tmp = tree->head;
+
+                        fwrite(&aux_tmp, sizeof(unsigned char), 1, destination);
+                    }
+                }
+            }
+            buffer = aux;
+        }
+    }
+}
+
+int isBitSet(unsigned char base, short int i){
+    unsigned char mask = 1 << i;
+
+    return base & mask;
 }

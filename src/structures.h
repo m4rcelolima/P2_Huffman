@@ -8,6 +8,7 @@ typedef struct _huffman{
     void *item;
     long int frequency;
     struct _huffman *next;
+    struct _huffman *previous;
     struct _huffman *left;
     struct _huffman *right;
 } node;
@@ -48,4 +49,8 @@ huffmanTree *createEmptyBinaryTree();
 void addHuffmanTree(huffmanTree *, node *);
 
 void nextSet();
+
+void previousSet(node *, node *);
+
+int isLeaf(node *node);
 #endif

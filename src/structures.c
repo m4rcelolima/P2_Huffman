@@ -18,6 +18,7 @@ node* newNode(unsigned char byte, long int freq, node* left, node* right){
     new_node->item = new_item;
     new_node->frequency = freq;
     new_node->next = NULL;
+    new_node->previous = NULL;
     new_node->left = left;
     new_node->right = right;
     return new_node;
@@ -51,9 +52,11 @@ void enqueue(pqueue *q, node *new_node){
     if (q->head == NULL){
         q->head = new_node;
         new_node->next = NULL;
+        new_node->previous = NULL;
     }
     else if (new_node->frequency <= q->head->frequency){
         new_node->next = q->head;
+        new_node->previous = NULL;
         q->head = new_node;
     }
     else{
@@ -64,6 +67,7 @@ void enqueue(pqueue *q, node *new_node){
             current = current->next;
         }
         new_node->next = current;
+        new_node->previous = previous;
         previous->next = new_node;
     }
     q->size++;
@@ -150,7 +154,7 @@ huffmanTree* createEmptyBinaryTree(){
 }
 
 void addHuffmanTree(huffmanTree *tree, node *to_add){
-
+    int counter = 0;
     if(tree != NULL && to_add != NULL){
         if((*(int*)tree->size) == 0){
             tree->head = to_add;
@@ -161,24 +165,67 @@ void addHuffmanTree(huffmanTree *tree, node *to_add){
 
             while(tmp != NULL && (tmp->frequency < to_add->frequency)){
                 tmp = tmp->next;
+                counter++;
             }
 
             nextSet(to_add, tmp);
 
             if(tmp != NULL){
+                previousSet(to_add, tmp->previous);
 
+                if(tmp == tree->head){
+
+                    tree->head = to_add;
+                } else{
+                    nextSet(to_add->previous, to_add);
+                }
+
+                previousSet(to_add->next, to_add);
+            } else{
+                previousSet(to_add, tree->tail);
+
+                nextSet(tree->tail, to_add);
+
+                tree->tail = to_add;
             }
         }
+
+        short int size = (*(short int*)tree->size);
+        size++;
+
+        memcpy(tree->size, &size, sizeof(short int));
+
+        short int intNodes = (*(short int*)tree->nodes);
+        intNodes++;
+
+        memcpy(tree->size, &intNodes, sizeof(short int));
+    }
+}
+
+void previousSet(node *_node, node *previous_node){
+    if(_node != NULL && previous_node != NULL){
+        _node->previous = previous_node;
     }
 }
 
 void nextSet(node *_node, node *next_node){
 
-    if(_node != NULL && next_node != NULL) {
+    if(_node != NULL && next_node != NULL){
 
         _node->next = next_node;
     }
 
+}
+
+int isLeaf(node* _node){
+    if(_node != NULL) {
+        if(_node->left == NULL && _node->right == NULL){
+            return 1;
+        } else{
+            return 0;
+        }
+    }
+    return 0;
 }
 
 /*
