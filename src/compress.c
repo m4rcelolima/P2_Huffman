@@ -40,9 +40,6 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
     int trash = writeCompressed(file_array, file_size, huffmanCoding, compressed_file);
 
     long int new_file_size = ftell(compressed_file);
-    printf("Compression done!\n");
-    printf("Compressed file %s has %ld bytes\n", output, new_file_size);
-    printf("A %.2f%% reduction!\n", (float)(file_size - new_file_size)/file_size*100.0);
 
     //Set the bits for the first two bytes with the trash size and tree size
     first_byte = tree_size >> 8;
@@ -57,6 +54,9 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
 
     fclose(compressed_file);
 
+    printf("Compression done!\n");
+    printf("Compressed file %s has %ld bytes\n", output, new_file_size);
+    printf("A %.2f%% reduction!\n", (float)(file_size - new_file_size)/file_size*100.0);
 }
 
 /*
