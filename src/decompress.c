@@ -9,6 +9,8 @@
 */
 void decompress(unsigned char *file_array, long int file_size, const char *output){
 
+    printf("Decompressing...\n");
+
     unsigned char first_byte = file_array[0];
     unsigned char second_byte = file_array[1];
 
@@ -22,14 +24,17 @@ void decompress(unsigned char *file_array, long int file_size, const char *outpu
     tree_size = (tree_size << 8);
     tree_size |= second_byte;
 
+    printf("Recreating huffman tree...\n");
+
     pqueue* tree_data = createPQueue();
     long int i;
     for (i = 1; i <= tree_size; i++){
         enqueue(tree_data, newNode(file_array[i+1], i, NULL, NULL));
     }
-
     node* huffman_tree = recreateHuffmanTree(tree_data);
     free(tree_data);
+
+    printf("Writing decompressed file...\n");
 
     FILE* decompressed = fopen(output, "w");
     node* tree_position = huffman_tree;
@@ -39,10 +44,11 @@ void decompress(unsigned char *file_array, long int file_size, const char *outpu
     }
     writeByte(tree_position, huffman_tree, decompressed, file_array[i], trash);
 
+
+    printf("Decompression finished!\n");
+    printf("The file %s has %ld bytes\n", output, ftell(decompressed));
+
     fclose(decompressed);
-
-    printf("All done!\n");
-
 }
 
 /*

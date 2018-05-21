@@ -89,7 +89,9 @@ int main(int argc, char const *argv[]){
 		decompress(file_data, file_size, argv[3]);
 	}
 	//Invalid argument
-	else
+	else{
 		printError(2);
+	}
+	printf("\n");
 	return 0;
 }
