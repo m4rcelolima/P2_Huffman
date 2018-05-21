@@ -1,8 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "decompress.h"
-#include "structures.h"
 
+/*
+ * Function: decompress
+ * -------------------------------------------------
+ * file_array: An array containing the bytes of the original file
+ * file_size: The amount of bytes the original file had, and the size of file_array
+ * output: The name of the compressed file, that is going to be created
+*/
 void decompress(unsigned char *file_array, long int file_size, const char *output){
 
     unsigned char first_byte = file_array[0];
@@ -41,11 +45,30 @@ void decompress(unsigned char *file_array, long int file_size, const char *outpu
 
 }
 
+/*
+ * Function: isSeted
+ * -------------------------------------------------
+ * byte: the byte to check whether or not a bit is set
+ * i: the bit to be checked, from right to left
+ * return: 1 if it's set, 0 if not set
+*/
 int isSeted(unsigned char byte, int i){
     unsigned char temp = 1 << i;
     return temp & byte;
 }
 
+
+/*
+ * Function: writeByte
+ * -------------------------------------------------
+ * Traverses the huffman tree to find the byte to be writed in the decompressed file
+ * -------------------------------------------------
+ * tree_position: the current node in the huffman tree traversal
+ * tree_root: the root of the huffman tree
+ * decompressed_file: the file where the bytes are going to be writen
+ * byte: byte of the compressed file (.huff) currently being read
+ * trash: amount of bits that are "trash" in the last byte
+*/
 node* writeByte(node* tree_position, node* tree_root, FILE* decompressed_file, unsigned char byte, int trash){
 
     int i = 8;
@@ -67,6 +90,13 @@ node* writeByte(node* tree_position, node* tree_root, FILE* decompressed_file, u
     return tree_position;
 }
 
+/*
+ * Function: recreateHuffmanTree
+ * -------------------------------------------------
+ * Recreates the huffman tree
+ * -------------------------------------------------
+ * tree_data: a queue containing the tree bytes
+*/
 node* recreateHuffmanTree(pqueue* tree_data){
 
     node* current = dequeue(tree_data);

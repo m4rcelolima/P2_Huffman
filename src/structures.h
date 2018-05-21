@@ -17,20 +17,39 @@ typedef struct _queue{
     int size;
 } pqueue;
 
-node *newNode(unsigned char, long int, node*, node*);
 
+/*
+ * Creates a new node and returns it
+*/
+node* newNode(unsigned char byte, long int freq, node* left, node* right);
+
+/*
+ * Initializes a priotity queue
+*/
 pqueue *createPQueue();
 
-void enqueue(pqueue*, node*);
+/*
+ * Enqueues a node in a priority queue
+*/
+void enqueue(pqueue *q, node *new_node);
 
-node *dequeue(pqueue*);
+/*
+ * Dequeues the first node from a queue
+*/
+node* dequeue(pqueue *q);
 
 void printQueue(pqueue*);
 
 void testQueue();
 
-unsigned char getItem(node*);
+/*
+ * Casts the void pointer to unsigned char from a node
+*/
+unsigned char getItem(node *node);
 
-long int getFrequency(node*);
+/*
+ * Retuns the frequency of a node
+*/
+long int getFrequency(node *node);
 
-#endif
+#endif //__STRUCTURES_H_
