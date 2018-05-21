@@ -23,8 +23,8 @@ void compress(unsigned char *file_array, long int file_size, const char *output)
     FILE* compressed_file = fopen(output, "w+");
 
     //Initializing the first two bytes
-    char first_byte = 0;
-    char second_byte = 0;
+    unsigned char first_byte = 0;
+    unsigned char second_byte = 0;
     putc(first_byte, compressed_file);
     putc(second_byte, compressed_file);
 
