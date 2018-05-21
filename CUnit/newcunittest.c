@@ -15,119 +15,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
-typedef struct _huffman{
-    int item;
-    int priority;
-    int nNodes;
-    struct _huffman *next;
-    struct _huffman *left;
-    struct _huffman *right;
-} node;
-
-typedef struct _queue{
-    node *head;
-    int size;
-} pqueue;
-
-
-pqueue* createPQueue(){
-    pqueue *new_queue = (pqueue*)malloc(sizeof(pqueue));
-    new_queue->head = NULL;
-    new_queue->size = 0;
-    return new_queue;
-}
-
-int is_empty(pqueue *pq){
-    if(pq->size > 0) return 0;
-    
-    return 1;
-}
-
-void enqueue(pqueue *pq, int i, int p)
-{
-    node *new_node = (node*) malloc(sizeof(node));
-    new_node->item = i;
-    new_node->priority = p;
-    new_node->right = NULL;
-    new_node->left = NULL;
-    new_node->nNodes = 0;
-    if ((is_empty(pq)) || (p > pq->head->priority)) {
-        new_node->next = pq->head;
-        pq->head = new_node;
-    } else {
-        node *current = pq->head;
-    while ((current->next != NULL) && (current->next->priority > p)) {
-        current = current->next;
-    }
-    new_node->next = current->next;
-    current->next = new_node;
-    }
-}
-
-
-int dequeue(pqueue *q){
-    if (q->size < 1){
-        printf("Queue underflow\n");
-        return NULL;
-    }
-    else{
-        node *dequeue = q->head;
-        q->head = q->head->next;
-        dequeue->next = NULL;
-        q->size--;
-
-        return dequeue->item;
-    }
-}
-
-int checkSizeQueue(pqueue *pq){
-    return pq->size;
-}
-
-// ÁRVORE
-
-node* createEmptyBinaryTree(){
-  return NULL;
-}
-
-node* createBinaryTree(int item, node *left, node *right){
-  node *new_tree = (node*) malloc(sizeof(node));
-
-  new_tree->nNodes = 1;
-  new_tree->item = item;
-  new_tree->left = left;
-  new_tree->right = right;
-
-  return new_tree;
-}
-
-bool isEmptyy(node *bt){
-  if(bt == NULL) return true;
-  else return false;
-}
-
-node* add(node *bt, int item){
-  if(bt == NULL){
-    bt = createBinaryTree(item, NULL, NULL);
-  }else if(bt->item > item){
-    bt->left = add(bt->left, item);
-  }else{
-    bt->right = add(bt->right, item);
-  }
-  bt->nNodes++;
-  return bt;
-}
-
-int checkSizeTree(node *bt){
-  if(bt == NULL){
-    return 0;
-  }else{
-    return bt->nNodes;
-  }
-}
-
-
+#include "../src/structures.h"
 
 int init_suite(void)
 {
@@ -142,66 +30,84 @@ int clean_suite(void)
 void queueTest(){
 
     pqueue *queue = createPQueue();
+    node *new_node = newNode('A', 1, NULL, NULL);
+    
+    enqueue(queue, new_node);
 
-    CU_ASSERT(checkSizeQueue(queue) == 0);
+    CU_ASSERT(getItem(queue->head) == 'A');
+    CU_ASSERT(getFrequency(queue->head) == 1);
     
-    CU_ASSERT(is_empty(queue) == 1);
+    dequeue(queue);
     
-    enqueue(queue, 10, 1);
+    CU_ASSERT(getItem(queue->head) == NULL);
+    CU_ASSERT(getFrequency(queue->head) == NULL);
+    
+    enqueue(queue, new_node);
+    new_node = newNode('D', 4, NULL, NULL);
+    enqueue(queue, new_node);
+    new_node = newNode('B', 2, NULL, NULL);
+    enqueue(queue, new_node);
+    new_node = newNode('C', 3, NULL, NULL);
+    enqueue(queue, new_node);
 
-    CU_ASSERT(checkSizeQueue(queue) == 1);
+    
+    CU_ASSERT(getItem(queue->head) == 'A');
+    CU_ASSERT(getFrequency(queue->head) == 1);
+    
+    dequeue(queue);
 
-    CU_ASSERT(is_empty(queue == 0));
+    CU_ASSERT(getItem(queue->head) == 'B');
+    CU_ASSERT(getFrequency(queue->head) == 2);
     
-    CU_ASSERT(dequeue(queue) == 10);
-
-    CU_ASSERT(checkSizeQueue(queue) == 1);
-
-    CU_ASSERT(checkSizeQueue(queue) == 0);
-
-    enqueue(queue, 20, 1);
+    dequeue(queue);
     
-    enqueue(queue, 5, 2);
+    CU_ASSERT(getItem(queue->head) == 'C');
+    CU_ASSERT(getFrequency(queue->head) == 3);
     
-    enqueue(queue, 1, 20);
+    dequeue(queue);
     
-    CU_ASSERT(checkSizeQueue(queue) == 3);
+    CU_ASSERT(getItem(queue->head) == 'D');
+    CU_ASSERT(getFrequency(queue->head) == 4);
     
-    CU_ASSERT(is_empty(queue == 0));
-    
-    CU_ASSERT(dequeue(queue) == 1);
-    
-    CU_ASSERT(checkSizeQueue(queue) == 2);
-    
-    CU_ASSERT(dequeue(queue) == 5);
-    
-    CU_ASSERT(checkSizeQueue(queue) == 1);
-    
-    CU_ASSERT(dequeue(queue) == 20);
-    
-    CU_ASSERT(is_empty(queue == 1));
-    
-    CU_ASSERT(checkSizeQueue(queue) == 0);
-
+    dequeue(queue);
 }
 
 
 void treeTest(){
 
-  node *bt = createEmptyBinaryTree();
+  node *tree = newNode('6', 1, 
+          newNode('4', 2, 
+            newNode('3', 3, NULL, NULL), newNode('5', 4, NULL, NULL)), 
+          newNode('8', 5, 
+            newNode('7', 6, NULL, NULL), newNode('9', 7, NULL, NULL)));
+  
+  CU_ASSERT(getItem(tree) == '6');
+  
+  CU_ASSERT(getFrequency(tree) == 1);
+  
+  CU_ASSERT(getItem(tree->left) == '4');
+  
+  CU_ASSERT(getFrequency(tree->left) == 2);
+  
+  CU_ASSERT(getItem(tree->right) == '8');
+  
+  CU_ASSERT(getFrequency(tree->right) == 5);
+  
+  CU_ASSERT(getItem(tree->left->left) == '3');
+  
+  CU_ASSERT(getFrequency(tree->left->left) == 3);
+  
+  CU_ASSERT(getItem(tree->left->right) == '5');
+  
+  CU_ASSERT(getFrequency(tree->left->right) == 4);
+ 
+  CU_ASSERT(getItem(tree->right->left) == '7');
+  
+  CU_ASSERT(getFrequency(tree->right->left) == 6);
+  
+  CU_ASSERT(getItem(tree->right->right) == '9');
 
-  bt = createBinaryTree(10, NULL, NULL);
-
-  CU_ASSERT(checkSizeTree(bt) == 1);
-
-  add(bt, 14);
-
-  CU_ASSERT(checkSizeTree(bt) == 2);
-
-  add(bt, 19);
-
-  CU_ASSERT(checkSizeTree(bt) == 3);
-
+  CU_ASSERT(getFrequency(tree->right->right) == 7);
 
 }
 
